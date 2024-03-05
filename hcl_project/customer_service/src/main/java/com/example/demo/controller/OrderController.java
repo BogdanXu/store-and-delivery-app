@@ -21,6 +21,7 @@ public class OrderController {
     @PostMapping("/place")
     public ResponseEntity<String> placeOrder(@Valid @RequestBody OrderDTO orderDTO) {
         orderService.sendOrder(orderDTO);
+        System.out.println("Order placed successfully");
         return ResponseEntity.ok("Order placed successfully");
     }
 }

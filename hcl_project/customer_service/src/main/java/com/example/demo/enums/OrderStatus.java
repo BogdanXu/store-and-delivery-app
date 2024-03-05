@@ -2,7 +2,8 @@ package com.example.demo.enums;
 
 public enum OrderStatus {
     PLACED,
-    READY,
+    READY_FOR_DELIVERY,
     IN_TRANSIT,
-    COMPLETED
+    COMPLETED,
+    INVALID
 }

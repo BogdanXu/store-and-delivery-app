@@ -17,5 +17,5 @@ public class Order {
     private Long orderId;
     private Map<Long, Integer> orderedItems;
     private String address;
-    private OrderStatus orderStatus;
+    private OrderStatus status;
 }
