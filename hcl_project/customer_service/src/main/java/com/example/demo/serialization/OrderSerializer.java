@@ -17,6 +17,7 @@ public class OrderSerializer implements Serializer<Order>, Deserializer<Order> {
     @Override
     public byte[] serialize(String topic, Order data) {
         try {
+            //writeValueAsBytes converts into *JSON byte array!!*, the order topic stores Order objects as JSON data
             return objectMapper.writeValueAsBytes(data);
         } catch (JsonProcessingException e) {
             throw new SerializationException("Error serializing Order", e);

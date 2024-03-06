@@ -15,4 +15,12 @@ public class OrderTopic {
                 .replicas(1)
                 .build();
     }
+    @Bean
+    NewTopic orderUpdates(){
+        return TopicBuilder
+                .name("order_updates")
+                .partitions(10)
+                .replicas(1)
+                .build();
+    }
 }

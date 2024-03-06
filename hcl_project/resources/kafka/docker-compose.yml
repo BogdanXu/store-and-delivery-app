@@ -55,6 +55,8 @@ services:
     tty: true
     networks:
       - kafka-net
+    volumes:
+      - ./:/app #mounts current directory to /app/ so that ksqldb container can access statements.sql
 networks:
   kafka-net:
     driver: bridge
