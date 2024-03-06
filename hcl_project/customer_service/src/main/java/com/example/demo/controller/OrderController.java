@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/order")
 @RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("/place")
+    @PostMapping()
     public ResponseEntity<String> placeOrder(@Valid @RequestBody OrderDTO orderDTO) {
         orderService.sendOrder(orderDTO);
         System.out.println("Order placed successfully");
