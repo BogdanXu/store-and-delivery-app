@@ -23,4 +23,12 @@ public class OrderTopic {
                 .replicas(1)
                 .build();
     }
+    @Bean
+    NewTopic latestStatuses(){
+        return TopicBuilder
+                .name("latest_statuses")
+                .partitions(10)
+                .replicas(1)
+                .build();
+    }
 }

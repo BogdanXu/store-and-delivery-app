@@ -17,7 +17,7 @@ import java.util.Map;
 public class OrderDTO {
     @NotNull(message = "Ordered items cannot be null")
     @Size(min = 1, message = "At least one ordered item must be present")
-    private Map<Long, Integer> orderedItems;
+    private Map<String, Integer> orderedItems;
     @NotEmpty(message = "Address cannot be empty")
     private String address;
 }

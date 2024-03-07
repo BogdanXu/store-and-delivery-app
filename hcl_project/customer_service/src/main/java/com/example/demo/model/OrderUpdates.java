@@ -1,17 +1,16 @@
 package com.example.demo.model;
 
+import com.example.demo.enums.OrderStatus;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Map;
 
 @Getter
+@Builder
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Order {
-    private Long orderTime;
+public class OrderUpdates {
     private Long orderId;
-    private Map<String, Integer> orderedItems;
-    private String address;
+    private OrderStatus status;
 }
