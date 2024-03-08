@@ -30,8 +30,7 @@ public class OrderService {
                 .status(OrderStatus.PLACED)
                 .build();
 
-        //this needs a better key, order.getAddress() isn't a good one, but i have no other ideas now
-        routingKafkaTemplate.send("order", order.getAddress(), order);
-        routingKafkaTemplate.send("order_updates", String.valueOf(orderUpdates.getStatus()), orderUpdates);
+        routingKafkaTemplate.send("order", order.getOrderId(), order);
+        routingKafkaTemplate.send("order_updates", orderUpdates.getOrderId(), orderUpdates);
     }
 }

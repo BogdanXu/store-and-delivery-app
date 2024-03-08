@@ -5,6 +5,7 @@ import com.example.demo.serialization.OrderUpdatesSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.IntegerSerializer;
+import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +29,7 @@ public class KafkaConfig {
         // ProducerFactory with Order serializer
         Map<String, Object> configs = new HashMap<>(pf.getConfigurationProperties());
         configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-                StringSerializer.class);
+                LongSerializer.class);
         configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
                 OrderSerializer.class);
         DefaultKafkaProducerFactory<Object, Object> orderPF =
