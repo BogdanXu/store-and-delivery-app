@@ -1,6 +1,7 @@
 package com.example.demo.kafka;
 
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.common.internals.Topic;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
@@ -27,6 +28,14 @@ public class OrderTopic {
     NewTopic latestStatuses(){
         return TopicBuilder
                 .name("latest_statuses")
+                .partitions(10)
+                .replicas(1)
+                .build();
+    }
+    @Bean
+    NewTopic materializedUpdatedOrders(){
+        return TopicBuilder
+                .name("materialized_updated_orders")
                 .partitions(10)
                 .replicas(1)
                 .build();
