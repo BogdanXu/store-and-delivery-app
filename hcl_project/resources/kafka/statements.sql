@@ -1,5 +1,5 @@
 --to enter ksqldb cli and execute this: docker exec -it ksqldb-cli ksql http://ksqldb-server:8088 -f /app/statements.sql
---what this is supposed to do: join the orders stream with their status, so we can query orders by statuses in a live stream
+--what this is supposed to do: join the orders stream with their status, so we can query orders by statuses later
 
 CREATE STREAM IF NOT EXISTS orders (
   orderid BIGINT,

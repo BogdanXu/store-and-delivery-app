@@ -33,7 +33,7 @@ public class OrderConsumer {
     Logger logger = LoggerFactory.getLogger(OrderConsumer.class);
 
 
-    //@KafkaListener(topics = {"order"}, groupId = "spring-boot-kafka")
+    @KafkaListener(topics = {"order"}, groupId = "spring-boot-kafka", properties = "value.deserializer:com.example.demo.serialization.OrderSerializer")
     public void consume(ConsumerRecord<Integer, Order> order) {
         Order receivedOrder = order.value();
         OrderUpdates orderUpdates = new OrderUpdates();
@@ -52,12 +52,13 @@ public class OrderConsumer {
         //send validated order if it's valid
         if(orderUpdates.getStatus()!=OrderStatus.INVALID){
             orderUpdates.setStatus(OrderStatus.READY_FOR_DELIVERY);
+            orderUpdates.setOrderId(receivedOrder.getOrderId());
             System.out.println("Received order = " + receivedOrder.getOrderId() +
                     " with key " + order.key() +
                     " being sent at address " + receivedOrder.getAddress() +
                     " and being prepared for delivery.");
         }
-        //orderUpdatesTemplate.send(DELIVERY_TOPIC, orderUpdates);
+        kafkaTemplate.send(ORDER_UPDATES_TOPIC, orderUpdates.getOrderId(), orderUpdates );
     }
 
     @EventListener(ApplicationStartedEvent.class)
