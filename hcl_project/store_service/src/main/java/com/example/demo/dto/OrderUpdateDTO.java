@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.dto;
 
 import lombok.*;
 import com.example.demo.enums.OrderStatus;
@@ -7,7 +7,7 @@ import com.example.demo.enums.OrderStatus;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderUpdates {
+public class OrderUpdateDTO {
     private Long orderId;
     private OrderStatus status;
 }
