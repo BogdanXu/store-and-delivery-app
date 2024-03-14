@@ -15,14 +15,14 @@ import java.sql.Timestamp;
 @Table(name = "order_update")
 public class OrderUpdate {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Use auto-increment
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long updateId;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false) // Specify foreign key column and make it non-nullable
-    private Order order; // Refer to the Order entity directly
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 
-    @Enumerated(EnumType.STRING) // Store status as a string
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @Column(name = "update_time")

@@ -38,6 +38,7 @@ public class OrderProducer {
 
     // @EventListener(ApplicationStartedEvent.class)
     // decomment this to generate orders
+    //TODO update this, i haven't touched this since i made some changes, ain't too necessary tho
     public void generate() {
         Order order = generateRandomOrder();
         final Flux<String> stringFlux = Flux.fromStream(Stream.generate(order::toString));
