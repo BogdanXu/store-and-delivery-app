@@ -1,21 +1,18 @@
 package com.example.demo.kafka;
 
-
-import com.example.demo.enums.OrderStatus;
-import com.example.demo.model.Order;
-import com.example.demo.model.OrderUpdates;
 import com.example.demo.service.ItemService;
-import io.confluent.ksql.api.client.BatchedQueryResult;
 import io.confluent.ksql.api.client.Client;
 import io.confluent.ksql.api.client.ClientOptions;
 import lombok.RequiredArgsConstructor;
+import com.example.demo.model.OrderUpdates;
+import com.example.demo.model.Order;
+import com.example.demo.enums.OrderStatus;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.RoutingKafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +31,35 @@ public class OrderConsumer {
 
 
     @KafkaListener(topics = {"order"}, groupId = "spring-boot-kafka", properties = "value.deserializer:com.example.demo.serialization.OrderSerializer")
-    public void consume(ConsumerRecord<Integer, Order> order) {
+    public void consumeWithoutOrderJPA(ConsumerRecord<Integer, Order> order) {
+        Order receivedOrder = order.value();
+        OrderUpdates orderUpdates = new OrderUpdates();
+
+        //validate stock for each item in orderedItems
+        for (Map.Entry<String, Integer> entry : receivedOrder.getOrderedItems().entrySet()) {
+            Long itemId = Long.valueOf(entry.getKey());
+            Integer quantity = entry.getValue();
+
+            if (!itemService.isInStock(itemId, quantity)) {
+                logger.error("Item with ID " + itemId + " is out of stock.");
+                orderUpdates.setStatus(OrderStatus.INVALID);
+            }
+        }
+
+        //send validated order if it's valid
+        if(orderUpdates.getStatus()!=OrderStatus.INVALID){
+            orderUpdates.setStatus(OrderStatus.READY_FOR_DELIVERY);
+            orderUpdates.setOrderId(receivedOrder.getOrderId());
+            System.out.println("Received order = " + receivedOrder.getOrderId() +
+                    " with key " + order.key() +
+                    " being sent at address " + receivedOrder.getAddress() +
+                    " and being prepared for delivery.");
+        }
+        kafkaTemplate.send(ORDER_UPDATES_TOPIC, orderUpdates.getOrderId(), orderUpdates );
+    }
+
+    @KafkaListener(topics = {"order"}, groupId = "spring-boot-kafka", properties = "value.deserializer:com.example.demo.serialization.OrderSerializer")
+    public void consumeWithOrderJPA(ConsumerRecord<Integer, Order> order) {
         Order receivedOrder = order.value();
         OrderUpdates orderUpdates = new OrderUpdates();
 

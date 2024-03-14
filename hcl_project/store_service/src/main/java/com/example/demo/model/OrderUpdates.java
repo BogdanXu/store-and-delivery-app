@@ -1,8 +1,7 @@
 package com.example.demo.model;
 
-import com.example.demo.enums.OrderStatus;
 import lombok.*;
-
+import com.example.demo.enums.OrderStatus;
 @Getter
 @Builder
 @Setter

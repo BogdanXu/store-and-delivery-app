@@ -1,13 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.OrderDTO;
-import com.example.demo.enums.OrderStatus;
 import com.example.demo.model.Order;
 import com.example.demo.model.OrderUpdates;
+import com.example.demo.dto.OrderDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.RoutingKafkaTemplate;
 import org.springframework.stereotype.Service;
+import com.example.demo.enums.OrderStatus;
 
 import java.util.UUID;
 
