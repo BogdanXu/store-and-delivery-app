@@ -20,12 +20,21 @@ public class OrderService {
     private final OrderUpdateRepository orderUpdateRepository;
 
     public Order saveOrder(OrderDTO orderDTO){
-        Order order = new Order(orderDTO.getOrderTime(), orderDTO.getOrderId(), orderDTO.getOrderedItems(), orderDTO.getAddress());
+        Order order = Order.builder()
+                .orderTime(System.currentTimeMillis())
+                .orderId(orderDTO.getOrderId())
+                .orderedItems(orderDTO.getOrderedItems())
+                .address(orderDTO.getAddress())
+                .build();
         return orderRepository.save(order);
     }
 
     public OrderUpdate saveOrderUpdate(Order order, OrderUpdateDTO orderUpdateDTO){
-        OrderUpdate orderUpdate = new OrderUpdate(null, order, orderUpdateDTO.getStatus(), new Timestamp(System.currentTimeMillis()));
+        OrderUpdate orderUpdate = OrderUpdate.builder()
+                .order(order)
+                .status(orderUpdateDTO.getStatus())
+                .updateTime(new Timestamp(System.currentTimeMillis()))
+                .build();
         return orderUpdateRepository.save(orderUpdate);
     }
 }

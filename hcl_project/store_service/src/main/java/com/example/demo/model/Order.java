@@ -13,6 +13,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "orders")
 public class Order {
     @Id
     private Long orderId;
